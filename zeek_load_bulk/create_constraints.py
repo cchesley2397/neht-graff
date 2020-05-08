@@ -4,7 +4,7 @@ from datetime import datetime
 from config import *
 
 # Build a connection to the DB
-driver = GraphDatabase.driver(NEO4J_URI, auth=basic_auth(NEO4J_CREDS[0], NEO4J_CREDS[1]))
+driver = GraphDatabase.driver(NEO4J_URI, auth=basic_auth(NEO4J_CREDS[0], NEO4J_CREDS[1]), encrypted=False)
 
 
 def create_host_constraints():
@@ -37,7 +37,7 @@ def create_conn_constraints():
 
 def create_dns_constraints():
     """
-    build constriints in the neo4j data base
+    build constraints in the neo4j data base
     :return: none
     """
     cypher_query = "CREATE CONSTRAINT ON (d:DNS) ASSERT d.uid IS UNIQUE;"
@@ -50,7 +50,7 @@ def create_dns_constraints():
 
 def create_file_constraints():
     """
-    build constriints in the neo4j data base
+    build constraints in the neo4j data base
     :return: none
     """
     cypher_query = "CREATE CONSTRAINT ON (f:File) ASSERT f.fuid IS UNIQUE;"
@@ -63,7 +63,7 @@ def create_file_constraints():
 
 def create_ftp_constraints():
     """
-    build constriints in the neo4j data base
+    build constraints in the neo4j data base
     :return: none
     """
     cypher_query = "CREATE CONSTRAINT ON (f:FTP) ASSERT f.uid IS UNIQUE;"
@@ -76,7 +76,7 @@ def create_ftp_constraints():
 
 def create_smtp_constraints():
     """
-    build constriints in the neo4j data base
+    build constraints in the neo4j data base
     :return: none
     """
     cypher_query = "CREATE CONSTRAINT ON (s:SMTP) ASSERT s.uid IS UNIQUE;"
@@ -86,9 +86,10 @@ def create_smtp_constraints():
     with driver.session() as session:
         session.run(cypher_query)
 
+
 def create_http_constraints():
     """
-    build constriints in the neo4j data base
+    build constraints in the neo4j data base
     :return: none
     """
     cypher_query = "CREATE CONSTRAINT ON (h:HTTP) ASSERT h.uid IS UNIQUE;"
@@ -98,9 +99,10 @@ def create_http_constraints():
     with driver.session() as session:
         session.run(cypher_query)
 
+
 def create_weird_constraints():
     """
-    build constriints in the neo4j data base
+    build constraints in the neo4j data base
     :return: none
     """
     cypher_query = "CREATE CONSTRAINT ON (w:Weird) ASSERT w.uid IS UNIQUE;"

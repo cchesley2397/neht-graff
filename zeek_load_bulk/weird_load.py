@@ -4,7 +4,7 @@ from datetime import datetime
 from config import *
 
 # Build a connection to the DB
-driver = GraphDatabase.driver(NEO4J_URI, auth=basic_auth(NEO4J_CREDS[0], NEO4J_CREDS[1]))
+driver = GraphDatabase.driver(NEO4J_URI, auth=basic_auth(NEO4J_CREDS[0], NEO4J_CREDS[1]), encrypted=False)
 
 
 # TODO modify the headers on the log data to not have . on the id sections

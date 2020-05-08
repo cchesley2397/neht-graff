@@ -9,7 +9,7 @@ app = Flask(__name__, template_folder='./templates')
 
 def get_db():
     if 'db' not in g:
-        g.db = GraphDatabase.driver(NEO4J_URI, auth=basic_auth(user=NEO4J_CREDS[0], password=NEO4J_CREDS[1]))
+        g.db = GraphDatabase.driver(NEO4J_URI, auth=basic_auth(user=NEO4J_CREDS[0], password=NEO4J_CREDS[1]), encrypted=False)
     return g.db
 
 
