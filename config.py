@@ -1,11 +1,20 @@
-# Constant configuration values
-import os
-
-# Flask Configuration
-FLASK_PORT = 8080
-
-# Neo4j Configuration
-NEO4J_URI = os.environ['NEO4J_URI']
+from utils.io import json_to_dict, dict_to_json
 
 
-NEO4J_CREDS = (os.environ['NEO4J_USER'], os.environ['NEO4J_PASSWORD'])
+class Config:
+    def __init__(self, path):
+        self.path = path
+        self.values = json_to_dict(path)
+
+    def update(self):
+        self.values = json_to_dict(self.path)
+
+    def has_val(self, val_name):
+        return self.values[val_name]
+
+    def set_val(self, val_name, val):
+        self.values[val_name] = val
+        dict_to_json(self.path, self.values)
+
+    def get_val(self, val_name):
+        return self.values[val_name]

@@ -1,0 +1,54 @@
+html {
+    font-family: 'Open Sans', sans-serif;
+}
+
+body {
+    margin: 0;
+    display: flex;
+    flex-direction: row;
+}
+
+#interfaceGrid {
+    display: grid;
+    height: 100vh;
+    width: 100vw;
+    z-index: 0;
+    grid-gap: 0;
+    grid-template-columns: auto 500px auto;
+    grid-template-rows: auto 40px 50px 40px auto;
+    background-color: #121212;
+}
+
+
+
+#textBoxLabel {
+    flex-grow: 1;
+    border-radius: 5px;
+}
+
+#textBox {
+    width: 100%;
+    padding-top: 2px;
+    flex-grow: 1;
+    font-size: medium;
+    margin: 6px;
+    border-radius: 5px;
+}
+
+#submitButton {
+    width: 90px;
+    font-size: large;
+    font-weight: 200;
+    border-radius: 5px;
+}
+
+#submitButton:hover {
+    background-color: #323232;
+}
+
+.formElement {
+    color: inherit;
+    background-color: inherit;
+    padding: inherit;
+    border: inherit;
+}

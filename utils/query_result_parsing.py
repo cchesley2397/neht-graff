@@ -108,7 +108,7 @@ def create_var(var_list, var_count):
 def refactor_query(query):
     """
     DEPRECATED
-    New query refactoring method found in query_refactoring.py
+    New query refactoring method found in cypher_refactoring.py
     :param query:
     :return:
     """

@@ -1,8 +1,18 @@
 from flask import Flask, request, render_template, jsonify, g
 from neo4j import GraphDatabase, basic_auth, CypherError
+from os import environ
+from utils import query_result_parsing, cypher_refactoring, io
+from config import Config
 
-from config import *
-from neo4j_utils import result_parsing, query_refactoring
+config = Config('./config.json')
+
+# Flask Configuration
+FLASK_PORT = config.get_val('flask_port')
+
+# Neo4j Configuration
+NEO4J_URI = config.get_val('neo4j_uri')
+NEO4J_CREDS = (environ['NEO4J_USER'], environ['NEO4J_PASSWORD'])
+
 
 app = Flask(__name__, template_folder='./templates')
 
@@ -43,31 +53,58 @@ def submit(query):
             close_db()
 
 
+@app.route('/set_directory', methods=['GET', 'POST'])
+def set_directory():
+    if request.method == 'GET':
+        if config.has_val('log_path'):
+            return render_template('./set_directory.html', default=config.get_val('log_path'))
+        else:
+            return render_template('./set_directory.html', default='./data/zeek')
+    elif request.method == 'POST':
+        log_path = request.form['log_path']
+        config.set_val('log_path', log_path)
+        # TODO check for existence of directory
+        if config.has_val('start_time') and config.has_val('end_time'):
+            render_template('graph.html')
+        else:
+            render_template('set_time.html')
+            # TODO add time selection
+        return render_template('graph.html')
+    else:
+        return 'Method not accepted.'
+
+
 # GET response: render graph.html
 # POST response: submit search bar query to specified DB, then render graph.html
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    if request.method == 'POST':
-        refactored_query = query_refactoring.refactor_query(request.form['query'])
-        print('Refactored query: ', refactored_query)
-        result, code, message = submit(refactored_query)
-        if code == 0:
-            records_json = result_parsing.parse_records(result)
-            return render_template('./graph.html', json_data=records_json, error='Enter query: ')
+    if config.has_val('log_path'):
+        if request.method == 'POST':
+            refactored_query = cypher_refactoring.refactor_query(request.form['query'])
+            print('Refactored query: ', refactored_query)
+            result, code, message = submit(refactored_query)
+            if code == 0:
+                records_json = query_result_parsing.parse_records(result)
+                return render_template('./graph.html', json_data=records_json, error='Enter query: ')
+            else:
+                print('ERROR: ' + str(message))
+                return render_template('./graph.html', error=result, message=message)
         else:
-            print('ERROR: ' + str(message))
-            return render_template('./graph.html', error=result, message=message)
+            return render_template('./graph.html')
     else:
-        return render_template('./graph.html')
+        if config.has_val('log_path'):
+            return render_template('./set_directory.html', default=config.get_val('log_path'))
+        else:
+            return render_template('./set_directory.html', default='./data/zeek')
 
 
 @app.route('/submit_query', methods=['POST'])
 def query_pivot():
     query = request.get_json()
-    query = query_refactoring.refactor_query(query)
+    query = cypher_refactoring.refactor_query(query)
     result, code, message = submit(query)
     if code == 0:
-        result_json = result_parsing.parse_records(result)
+        result_json = query_result_parsing.parse_records(result)
         return jsonify(result_json)
     else:
         print('ERROR: ' + str(message))

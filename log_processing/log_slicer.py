@@ -33,4 +33,4 @@ def slice_logs(start, end, log_dir):
 
 
 if __name__ == '__main__':
-    slice_logs(1331922852.390000, 1331999738.860000, './data/zeek/full')
+    slice_logs(1331922852.390000, 1331999738.860000, './data/zeek')

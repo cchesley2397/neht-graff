@@ -1,0 +1,73 @@
+html {
+    font-family: 'Open Sans', sans-serif;
+}
+
+body {
+    margin: 0;
+    display: flex;
+    flex-direction: row;
+}
+
+#interfaceGrid {
+    display: grid;
+    height: 100vh;
+    width: 100vw;
+    z-index: 0;
+    grid-gap: 0;
+    grid-template-columns: auto 500px auto;
+    grid-template-rows: auto 40px auto;
+    background-color: #121212;
+}
+
+#directoryForm {
+    grid-row: 2;
+    grid-column: 2;
+    display: flex;
+    flex-grow: 1;
+    background-color: #202020;
+    z-index: 1;
+    color: rgba(255, 255, 255, 0.87);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08), 0 3px 6px rgba(0,0,0,0.12);
+    padding: 0;
+    border: 0;
+}
+
+#directoryForm {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    justify-content: right;
+    border-radius: 5px;
+}
+
+#textBoxLabel {
+    flex-grow: 1;
+    border-radius: 5px;
+}
+
+#textBox {
+    width: 100%;
+    padding-top: 2px;
+    flex-grow: 1;
+    font-size: medium;
+    margin: 6px;
+    border-radius: 5px;
+}
+
+#submitButton {
+    width: 90px;
+    font-size: large;
+    font-weight: 200;
+    border-radius: 5px;
+}
+
+#submitButton:hover {
+    background-color: #323232;
+}
+
+.formElement {
+    color: inherit;
+    background-color: inherit;
+    padding: inherit;
+    border: inherit;
+}

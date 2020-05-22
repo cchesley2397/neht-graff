@@ -1,0 +1,7 @@
+{
+  "log_path": null,
+  "neo4j_uri": "bolt://localhost:7687",
+  "flask_port": 8080,
+  "start_time": null,
+  "end_time": null
+}
