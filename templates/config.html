@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block head_content %}
+    <!-- Style -->
+    <link rel='stylesheet' href='{{ url_for('static',filename='styles/config.css') }}'>
+    <link href='https://fonts.googleapis.com/css?family=IBM+Plex+Mono&display=swap' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=IBM+Plex+Sans&display=swap' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans&display=swap' rel='stylesheet'>
+    <!-- Icons -->
+    <link rel='icon' type='image/png' sizes='32x32' href='{{ url_for('static', filename='images/favicon-32x32.png') }}'>
+    <link rel='icon' type='image/png' sizes='16x16' href='{{ url_for('static', filename='images/favicon-16x16.png') }}'>
+{% endblock %}
+{% block body_content %}
+<div id='pageGrid'>
+    <form id='formGrid' action='/config' method='post'>
+        <label class='formGridItem'>
+            <input type='text' name='log_path' id='logPathInput' placeholder='Path to zeek log directory' value='{{ default }}' class='formElement'>
+        </label>
+        {% if log_path_set %}
+            <label class='formGridItem'>
+                <input type='number' name='start_time' placeholder='Start time (Epoch)'>
+            </label>
+            <label class='formGridItem'>
+                <input type='number' name='end_time' placeholder='End time (Epoch)'>
+            </label>
+        {% endif %}
+        <label class='formGridItem'>
+            <button type='submit' id='submitButton'>
+                Submit
+            </button>
+        </label>
+    </form>
+</div>
+{% endblock %}

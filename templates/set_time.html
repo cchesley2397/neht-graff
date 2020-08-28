@@ -11,16 +11,13 @@
 {% endblock %}
 {% block body_content %}
 <div id='interfaceGrid'>
-    <form id='timeSelectorStartForm'>
+    <form id='timeSelectorForm'>
         <label>
-            <input type='date' name='date'>
+            <input type='number' name='start_time' placeholder='Start time (Epoch)'>
         </label>
         <label>
-            <input type='time' name='time'>
+            <input type='number' name='end_time' placeholder='End time (Epoch)'>
         </label>
     </form>
-    <div id='timeSelectorEndForm>
-
-    </div>
 </div>
 {% endblock %}

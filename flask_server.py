@@ -1,6 +1,6 @@
 from flask import Flask, request, render_template, jsonify, g
 from neo4j import GraphDatabase, basic_auth, CypherError
-from os import environ
+from os import environ, path
 from utils import query_result_parsing, cypher_refactoring, io
 from config import Config
 
@@ -53,25 +53,42 @@ def submit(query):
             close_db()
 
 
-@app.route('/set_directory', methods=['GET', 'POST'])
-def set_directory():
+@app.route('/config', methods=['GET', 'POST'])
+def config_page():
     if request.method == 'GET':
         if config.has_val('log_path'):
-            return render_template('./set_directory.html', default=config.get_val('log_path'))
+            return render_template('config.html',
+                                   default_log_path=config.get_val('log_path'),
+                                   log_path_set=True)
         else:
-            return render_template('./set_directory.html', default='./data/zeek')
+            return render_template('config.html',
+                                   default_log_path='./data/zeek',
+                                   log_path_set=None)
     elif request.method == 'POST':
-        log_path = request.form['log_path']
-        config.set_val('log_path', log_path)
-        # TODO check for existence of directory
+        if 'log_path' in request.form.keys():
+            log_path = request.form['log_path']
+            if len(request.form.keys()) == 1:
+                if path.exists(log_path):
+                    config.set_val('log_path', log_path)
+                    log_types = get_log_types(log_path)
+                    start_time = get_log_start_time(log_path)
+                    end_time = get_log_end_time(log_path)
+                    return render_template('config.html',
+                                           default_log_path=log_path,
+                                           log_path_set=True)
+                else:
+                    return render_template('./config.html',
+                                           default_log_path=log_path,
+                                           log_path_set=False,
+                                           error='Invalid directory.')  # TODO add error display
+
+
         if config.has_val('start_time') and config.has_val('end_time'):
             render_template('graph.html')
         else:
             render_template('set_time.html')
             # TODO add time selection
         return render_template('graph.html')
-    else:
-        return 'Method not accepted.'
 
 
 # GET response: render graph.html
@@ -93,9 +110,9 @@ def index():
             return render_template('./graph.html')
     else:
         if config.has_val('log_path'):
-            return render_template('./set_directory.html', default=config.get_val('log_path'))
+            return render_template('./config.html', default=config.get_val('log_path'))
         else:
-            return render_template('./set_directory.html', default='./data/zeek')
+            return render_template('./config.html', default='./data/zeek')
 
 
 @app.route('/submit_query', methods=['POST'])

@@ -1,0 +1,78 @@
+html {
+    font-family: 'Open Sans', sans-serif;
+}
+
+body {
+    margin: 0;
+    display: flex;
+    flex-direction: row;
+    background-color: #121212;
+}
+
+#pageGrid {
+    height: 100vh;
+    width: 100vw;
+    z-index: 0;
+
+    display: grid;
+    grid-gap: 0;
+    grid-template-columns: auto 700px auto;
+    grid-template-rows: auto auto auto;
+
+}
+
+#formGrid {
+    grid-row: 2;
+    grid-column: 2;
+    display: grid;
+    grid-template-columns: 700px;
+    grid-template-rows: auto auto auto auto;
+    grid-gap: 10px;
+    vertical-align: middle;
+}
+
+.formGridItem {
+    display: flex;
+    flex-grow: 1;
+    margin: auto;
+    padding: 0;
+    border: 0;
+    border-radius: 5px;
+    width: 100%;
+    height: 100%;
+}
+
+#logPathInput {
+    background-color: #202020;
+    color: rgba(255, 255, 255, 0.87);
+    width: 100%;
+    padding-top: 1px;
+    padding-left: 3px;
+    flex-grow: 1;
+    font-size: medium;
+    margin: auto;
+    height: 40px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08), 0 3px 6px rgba(0,0,0,0.12);
+    justify-content: center;
+    vertical-align: middle;
+    border: 0;
+    border-radius: 5px;
+}
+
+#submitButton {
+    width: 90px;
+    height: 40px;
+    font-size: large;
+    font-weight: 200;
+    background-color: #202020;
+    color: rgba(255, 255, 255, 0.87);
+    border: 0;
+    border-radius: 5px;
+    margin: auto;
+}
+
+#submitButton:hover {
+    background-color: #323232;
+    color: rgba(255, 255, 255, 1);
+}
+
